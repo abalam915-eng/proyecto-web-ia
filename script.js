@@ -57,7 +57,7 @@ const el = {
 // Sirve para ignorar respuestas viejas si el usuario escribe rápido.
 let lastRequestId = 0;
  
-async function fetchCharacters() {
+async function fetchCharacters(retried = false) {
   const requestId = ++lastRequestId;
  
   // Armamos la URL con los parámetros de búsqueda y filtros.
@@ -93,9 +93,20 @@ async function fetchCharacters() {
     state.totalPages = data.info.pages;
     hideMessage();
     renderAll();
-  } catch (error) {
+    } catch (error) {
     if (requestId !== lastRequestId) return;
     console.error("Error al consultar la API:", error);
+
+    // La API bloquea unos segundos si recibe muchas consultas seguidas.
+    // Esperamos 10 segundos y reintentamos una sola vez.
+    if (!retried) {
+      showMessage("La API recibió muchas consultas seguidas. Reintentando en 10 segundos...", "info");
+      setTimeout(() => {
+        if (requestId === lastRequestId) fetchCharacters(true);
+      }, 10000);
+      return;
+    }
+
     state.characters = [];
     state.totalPages = 1;
     renderAll();
