@@ -182,3 +182,69 @@ function renderPagination() {
   el.prevBtn.disabled = state.page <= 1;
   el.nextBtn.disabled = state.page >= state.totalPages;
 }
+
+// [RETO COMPARAR] aquí se pegará el bloque de comparación
+ 
+/* =====================================================================
+   PARTE 4 — Buscador, filtros y paginación                   (commit 4)
+   ===================================================================== */
+ 
+let searchTimer = null;
+ 
+// Cada vez que cambia la búsqueda o un filtro volvemos a la página 1.
+function applyFilters() {
+  state.page = 1;
+  fetchCharacters();
+}
+ 
+function changePage(step) {
+  state.page += step;
+  fetchCharacters();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+ 
+function setupEvents() {
+  // Buscar al presionar Enter.
+  el.searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    clearTimeout(searchTimer);
+    state.name = el.searchInput.value.trim();
+    applyFilters();
+  });
+ 
+  // Buscar mientras escribe, esperando 400 ms para no saturar la API.
+  el.searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.name = el.searchInput.value.trim();
+      applyFilters();
+    }, 400);
+  });
+ 
+  el.filterStatus.addEventListener("change", () => {
+    state.status = el.filterStatus.value;
+    applyFilters();
+  });
+ 
+  el.filterGender.addEventListener("change", () => {
+    state.gender = el.filterGender.value;
+    applyFilters();
+  });
+ 
+  el.filterSpecies.addEventListener("change", () => {
+    state.species = el.filterSpecies.value;
+    applyFilters();
+  });
+ 
+  el.clearBtn.addEventListener("click", () => {
+    el.searchForm.reset();
+    state.name = "";
+    state.status = "";
+    state.gender = "";
+    state.species = "";
+    applyFilters();
+  });
+ 
+  el.prevBtn.addEventListener("click", () => changePage(-1));
+  el.nextBtn.addEventListener("click", () => changePage(1));
+}
