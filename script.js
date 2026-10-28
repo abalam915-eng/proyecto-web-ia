@@ -322,13 +322,46 @@ function setupTabs() {
   el.tabFavorites.addEventListener("click", () => showView("favorites"));
 }
  
-// [RETO MODO OSCURO] aquí se pegará el bloque del tema
+/* =====================================================================
+   RETO — Modo oscuro y claro
+   ===================================================================== */
+
+const THEME_KEY = "rm-tema";
+
+// Pone el tema en <html> y cambia el texto del botón.
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  document.getElementById("theme-btn").textContent =
+    theme === "dark" ? "☀️ Modo claro" : "🌙 Modo oscuro";
+}
+
+// Lee el tema guardado y prepara el botón para alternar.
+function initTheme() {
+  let saved = "light";
+  try {
+    saved = localStorage.getItem(THEME_KEY) || "light";
+  } catch (error) {
+    console.error("No se pudo leer el tema:", error);
+  }
+  applyTheme(saved);
+
+  document.getElementById("theme-btn").addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch (error) {
+      console.error("No se pudo guardar el tema:", error);
+    }
+  });
+}
  
 function init() {
   loadFavorites();
   setupEvents();
   setupTabs();
-  // [RETO MODO OSCURO] aquí se agregará: initTheme();
+  initTheme();
   renderAll();
   fetchCharacters();
 }
