@@ -20,8 +20,31 @@
   --shadow: 0 1px 6px rgba(20, 33, 61, 0.12);
 }
 
-/* [RETO MODO OSCURO] aquí se pegará el bloque [data-theme="dark"] */
+/* Modo oscuro: cuando <html> tiene data-theme="dark" se cambian las variables */
+[data-theme="dark"] {
+  --bg: #0d1b1e;
+  --surface: #16282c;
+  --text: #e6f0e0;
+  --muted: #a3b3a8;
+  --border: #2a4045;
+  --primary: #97ce4c;
+  --primary-text: #0d1b1e;
+  --header-bg: #08201f;
+  --alive: #4caf50;
+  --unknown: #8a94a6;
+  --shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
 
+/* Botón de tema: verde portal para que se vea sobre el encabezado oscuro */
+.theme-btn {
+  border-color: var(--portal);
+  color: var(--portal);
+}
+
+.theme-btn:hover {
+  background: var(--portal);
+  color: #0f3d3e;
+}
 *,
 *::before,
 *::after {
