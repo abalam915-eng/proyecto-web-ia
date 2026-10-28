@@ -1,0 +1,313 @@
+/* =====================================================
+   Explorador Rick and Morty — estilos base
+   Todos los colores salen de variables en :root para que
+   el modo oscuro solo tenga que cambiar los valores.
+   ===================================================== */
+
+:root {
+  --bg: #eef3e8;
+  --surface: #ffffff;
+  --text: #14213d;
+  --muted: #55607a;
+  --border: #d3dcc8;
+  --primary: #2f7d1d;
+  --primary-text: #ffffff;
+  --portal: #97ce4c;
+  --header-bg: #0f3d3e;
+  --alive: #2f7d1d;
+  --dead: #b42323;
+  --unknown: #6b7280;
+  --shadow: 0 1px 6px rgba(20, 33, 61, 0.12);
+}
+
+/* [RETO MODO OSCURO] aquí se pegará el bloque [data-theme="dark"] */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  font-family: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primary);
+}
+
+:focus-visible {
+  outline: 3px solid var(--portal);
+  outline-offset: 2px;
+}
+
+/* ---------- Encabezado ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem);
+  background: var(--header-bg);
+  border-bottom: 4px solid var(--portal);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--portal);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 2rem;
+}
+
+/* ---------- Pestañas ---------- */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.tab {
+  font: inherit;
+  font-weight: 700;
+  padding: 0.6rem 1.1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-text);
+}
+
+/* ---------- Buscador y filtros ---------- */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  align-items: flex-end;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.field.grow {
+  flex: 1 1 220px;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 0;
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  font: inherit;
+  font-weight: 700;
+  padding: 0.55rem 0.9rem;
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: var(--primary-text);
+}
+
+.btn.active {
+  background: var(--primary);
+  color: var(--primary-text);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Mensajes (cargando, sin resultados, error) ---------- */
+.message {
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border-left: 5px solid var(--muted);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.message:empty {
+  display: none;
+}
+
+.message.error {
+  border-left-color: var(--dead);
+}
+
+.message.info {
+  border-left-color: var(--portal);
+}
+
+/* ---------- Tarjetas de personajes ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--border);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.9rem;
+  flex: 1;
+}
+
+.card-body h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.description {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--unknown);
+}
+
+.badge.alive {
+  background: var(--alive);
+}
+
+.badge.dead {
+  background: var(--dead);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.card-actions .btn {
+  flex: 1 1 auto;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+/* ---------- Paginación ---------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* ---------- Pie de página ---------- */
+.footer {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.footer p {
+  margin: 0;
+}
+
+/* ---------- Adaptable a celulares ---------- */
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+
+  .card-body {
+    padding: 0.7rem;
+  }
+
+  .card-body h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [RETO COMPARAR] aquí se pegarán los estilos del panel de comparación */
