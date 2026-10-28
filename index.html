@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorador Rick and Morty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Explorador Rick and Morty</h1>
+    <!-- [RETO MODO OSCURO] aquí se pegará el botón de tema -->
+  </header>
+
+  <main>
+    <nav class="tabs" aria-label="Secciones">
+      <button type="button" id="tab-explorer" class="tab active">Personajes</button>
+      <button type="button" id="tab-favorites" class="tab">Favoritos (<span id="favorites-count">0</span>)</button>
+    </nav>
+
+    <!-- [RETO COMPARAR] aquí se pegará el panel de comparación -->
+
+    <section id="explorer-view" aria-label="Explorador de personajes">
+      <form id="search-form" class="controls">
+        <label class="field grow">
+          <span>Buscar por nombre</span>
+          <input type="search" id="search-input" placeholder="Ej. Rick, Morty, Summer" autocomplete="off">
+        </label>
+
+        <label class="field">
+          <span>Estado</span>
+          <select id="filter-status">
+            <option value="">Todos</option>
+            <option value="alive">Vivo</option>
+            <option value="dead">Muerto</option>
+            <option value="unknown">Desconocido</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Género</span>
+          <select id="filter-gender">
+            <option value="">Todos</option>
+            <option value="female">Femenino</option>
+            <option value="male">Masculino</option>
+            <option value="genderless">Sin género</option>
+            <option value="unknown">Desconocido</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Especie</span>
+          <select id="filter-species">
+            <option value="">Todas</option>
+            <option value="human">Humano</option>
+            <option value="alien">Alien</option>
+            <option value="humanoid">Humanoide</option>
+            <option value="robot">Robot</option>
+            <option value="animal">Animal</option>
+            <option value="mythological creature">Criatura mitológica</option>
+            <option value="cronenberg">Cronenberg</option>
+            <option value="disease">Enfermedad</option>
+            <option value="poopybutthole">Poopybutthole</option>
+            <option value="unknown">Desconocida</option>
+          </select>
+        </label>
+
+        <button type="button" id="clear-btn" class="btn">Limpiar filtros</button>
+      </form>
+
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+
+      <div id="results" class="grid"></div>
+
+      <nav id="pagination" class="pagination" aria-label="Paginación" hidden>
+        <button type="button" id="prev-btn" class="btn">Anterior</button>
+        <span id="page-info">Página 1 de 1</span>
+        <button type="button" id="next-btn" class="btn">Siguiente</button>
+      </nav>
+    </section>
+
+    <section id="favorites-view" aria-label="Personajes favoritos" hidden>
+      <h2>Mis favoritos</h2>
+      <p id="favorites-message" class="message"></p>
+      <div id="favorites-grid" class="grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Datos de <a href="https://rickandmortyapi.com" target="_blank" rel="noopener">The Rick and Morty API</a>. Proyecto escolar de Angel Balam y Luisa Ortiz.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
