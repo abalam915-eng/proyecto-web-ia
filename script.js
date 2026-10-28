@@ -248,3 +248,78 @@ function setupEvents() {
   el.prevBtn.addEventListener("click", () => changePage(-1));
   el.nextBtn.addEventListener("click", () => changePage(1));
 }
+
+/* =====================================================================
+   PARTE 5 — Favoritos con localStorage y pestañas            (commit 5)
+   ===================================================================== */
+ 
+function loadFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITES_KEY));
+    state.favorites = Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    console.error("No se pudieron leer los favoritos:", error);
+    state.favorites = [];
+  }
+}
+ 
+function saveFavorites() {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(state.favorites));
+  } catch (error) {
+    console.error("No se pudieron guardar los favoritos:", error);
+  }
+}
+ 
+function isFavorite(id) {
+  return state.favorites.some((character) => character.id === id);
+}
+ 
+function toggleFavorite(character) {
+  if (isFavorite(character.id)) {
+    state.favorites = state.favorites.filter((fav) => fav.id !== character.id);
+  } else {
+    state.favorites.push(character);
+  }
+  saveFavorites();
+  renderAll();
+}
+ 
+function updateFavoriteCount() {
+  el.favoritesCount.textContent = state.favorites.length;
+}
+ 
+// Vuelve a dibujar todo lo que depende del estado.
+function renderAll() {
+  renderCharacters();
+  renderFavorites();
+  renderPagination();
+  updateFavoriteCount();
+  // [RETO COMPARAR] aquí se agregará: renderCompare();
+}
+ 
+function showView(view) {
+  const showingFavorites = view === "favorites";
+  el.explorerView.hidden = showingFavorites;
+  el.favoritesView.hidden = !showingFavorites;
+  el.tabExplorer.classList.toggle("active", !showingFavorites);
+  el.tabFavorites.classList.toggle("active", showingFavorites);
+}
+ 
+function setupTabs() {
+  el.tabExplorer.addEventListener("click", () => showView("explorer"));
+  el.tabFavorites.addEventListener("click", () => showView("favorites"));
+}
+ 
+// [RETO MODO OSCURO] aquí se pegará el bloque del tema
+ 
+function init() {
+  loadFavorites();
+  setupEvents();
+  setupTabs();
+  // [RETO MODO OSCURO] aquí se agregará: initTheme();
+  renderAll();
+  fetchCharacters();
+}
+ 
+init();
